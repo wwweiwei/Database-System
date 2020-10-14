@@ -1,0 +1,146 @@
+<!-- Copyright 2016 vanilladb.org Licensed under the Apache License, Version 
+	2.0 (the "License"); you may not use this file except in compliance with 
+	the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.vanilladb</groupId>
+	<artifactId>comm</artifactId>
+	<version>0.4.0-2020-spring</version>
+	<packaging>jar</packaging>
+	
+	<repositories>
+		<!-- This is for Appia -->
+		<repository>
+			<id>in-project-repo</id>
+			<url>file://${basedir}/lib</url>
+		</repository>
+	</repositories>
+	
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<!-- We use the Appia that we optimized for VanillaComm -->
+		<dependency>
+			<groupId>net.sf.appia</groupId>
+			<artifactId>core</artifactId>
+			<version>4.1.2-vanilladb</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Use JDK 1.8, instead of the default one (JDK 1.5) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<!-- Demo Execution -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<configuration>
+					<systemProperties>
+						<systemProperty>
+							<key>java.util.logging.config.file</key>
+							<value>target/classes/java/util/logging/logging.properties</value>
+						</systemProperty>
+						<systemProperty>
+							<key>org.vanilladb.comm.config.file</key>
+							<value>target/classes/org/vanilladb/comm/vanillacomm.properties</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<id>server-demo</id>
+						<configuration>
+							<mainClass>org.vanilladb.comm.server.ServerDemo</mainClass>
+						</configuration>
+					</execution>
+					<execution>
+						<id>client-demo</id>
+						<configuration>
+							<mainClass>org.vanilladb.comm.client.ClientDemo</mainClass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Generate a single jar with Appia -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<artifactSet>
+						<includes>
+							<include>net.sf.appia:core</include>
+						</includes>
+					</artifactSet>
+				</configuration>
+			</plugin>
+
+			<!-- Generate the source jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Generate JavaDoc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

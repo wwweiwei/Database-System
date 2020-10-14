@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.vanilladb</groupId>
+	<artifactId>calvin</artifactId>
+	<version>0.4.0-2020-spring</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.vanilladb</groupId>
+			<artifactId>core</artifactId>
+			<version>0.4.0-2020-spring</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vanilladb</groupId>
+			<artifactId>comm</artifactId>
+			<version>0.4.0-2020-spring</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Use JDK 1.8, instead of the default one (JDK 1.5) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
